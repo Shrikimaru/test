@@ -235,18 +235,11 @@ define(["collection/instrument","collection/track","models/sound-map","template/
                 var instance = function () {
                     linePosition = ( linePosition + speed ) % 800;
                     $play.css({"left": linePosition + 92});
-                    _.each(sound_element,function(val,key){
-                        if(key >= linePosition - speed && key < linePosition){
-                            if (_.isArray(val)) {
-                                _.each(val, function (v, k) {
-                                    v.play();
-                                })
-                            } else {
-                                val.play();
-                            }
-
-                        }
-                    });
+                    for (var num = Math.floor((linePosition - speed)/8)*8; num < linePosition; num +=8) {
+                        _.each(sound_element[num], function (v, k) {
+                            v.play();
+                        })
+                    }
                     time += tickTime;
                     var diff = (Date.now() - start) - time;
                     if (flag) {
